@@ -46,6 +46,18 @@ def main():
             if url.fragment and target in documents:
                 assert unquote(url.fragment) in documents[target].ids, f"Missing fragment: {path}: {link}"
             checked += 1
+    # Raw CI report artifacts live beside site/, rather than inside it.
+    for path in (ROOT / "target/reports").glob("*.html"):
+        for link in Document(path.read_text(encoding="utf-8")).links:
+            url = urlsplit(link)
+            if url.scheme or url.netloc:
+                continue
+            target = (path.parent / unquote(url.path)).resolve() if url.path else path.resolve()
+            assert target.is_relative_to((ROOT / "target").resolve()), f"Report link leaves output: {link}"
+            assert target.is_file(), f"Broken artifact link: {path}: {link}"
+            if url.fragment and target in documents:
+                assert unquote(url.fragment) in documents[target].ids, f"Missing artifact fragment: {link}"
+            checked += 1
     for profile in ("items", "records", "datasets", "catalog"):
         graph = Graph()
         for suffix in ("class_definitions", "property_definitions"):

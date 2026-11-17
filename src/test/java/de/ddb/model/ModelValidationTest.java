@@ -222,7 +222,7 @@ class ModelValidationTest {
             for (ReportEntry entry : report.getEntries().stream().sorted(Comparator.comparing(e -> result(e, shapes).key())).toList()) {
                 Result row = result(entry, shapes);
                 String name = row.shape().substring(row.shape().lastIndexOf('/') + 1);
-                String prefix = directory.getFileName().toString().equals("private-reports") ? "../site/" : "../";
+                String prefix = "../site/";
                 String href = profile.startsWith("api-")
                         ? prefix + profile.substring(4) + "/downloads/" + profile.substring(4) + "-api-policy.ttl"
                         : prefix + profile + "/index.html#shape-" + name;

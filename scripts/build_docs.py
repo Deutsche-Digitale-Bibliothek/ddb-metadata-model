@@ -245,6 +245,10 @@ def build(args):
     if report_source.is_dir():
         # Only the public synthetic-test report directory is copied.
         shutil.copytree(report_source, OUT / "reports")
+        for report_html in (OUT / "reports").glob("*.html"):
+            # Raw build artifacts link to their sibling site/ directory. Once
+            # published inside the site, the same target is one level closer.
+            write(report_html, report_html.read_text(encoding="utf-8").replace('href="../site/', 'href="../'))
         for report_file in (OUT / "reports").glob("*.ttl"):
             report_graph = Graph().parse(report_file, format="turtle")
             # Jena's blank-node identifiers are process-local. Canonicalize the
