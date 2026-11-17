@@ -8,20 +8,41 @@
 @prefix dcterms: <http://purl.org/dc/terms/> .
 @prefix dc: <http://purl.org/dc/elements/1.1/> .
 @prefix ddbv: <https://www.deutsche-digitale-bibliothek.de/ddb/validation/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ddbv:ItemStructureGroup a sh:PropertyGroup ;
+  rdfs:label "Proxy und Aggregation"@de ;
+  sh:order 1 .
+
+ddbv:ItemTypeGroup a sh:PropertyGroup ;
+  rdfs:label "Medientyp"@de ;
+  sh:order 2 .
 
 # Beziehungen des Proxy-Modells, wie im DDB-EDM-Konzept vorgesehen.
 ddbv:ItemProxyShape a sh:NodeShape ;
+  rdfs:label "Proxy-Verknüpfungen"@de ;
+  sh:name "Proxy-Verknüpfungen"@de ;
+  sh:description "Für Knoten im Target ore:Proxy werden genau ein IRI-Verweis über ore:proxyFor und genau einer über ore:proxyIn geprüft. Die referenzierten Ressourcen müssen hier weder existieren noch eine bestimmte Klasse besitzen."@de ;
+  sh:order 1 ;
   sh:targetClass ore:Proxy ;
-  sh:property [ sh:path ore:proxyFor ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:message "Ein Proxy referenziert genau ein Kulturerbeobjekt."@de ] ;
-  sh:property [ sh:path ore:proxyIn ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:message "Ein Proxy gehört genau zu einer Aggregation."@de ] .
+  sh:property [ sh:name "Beschriebenes Kulturerbeobjekt"@de ; sh:description "Genau ein IRI-Wert; geprüft wird die Form des Verweises, nicht der Typ seines Ziels."@de ; sh:group ddbv:ItemStructureGroup ; sh:order 1 ; sh:path ore:proxyFor ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:message "Ein Proxy referenziert genau ein Kulturerbeobjekt."@de ] ;
+  sh:property [ sh:name "Zugehörige Aggregation"@de ; sh:description "Genau ein IRI-Wert; die Zugehörigkeit zu einer bestimmten Aggregationsklasse wird nicht zusätzlich geprüft."@de ; sh:group ddbv:ItemStructureGroup ; sh:order 2 ; sh:path ore:proxyIn ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:message "Ein Proxy gehört genau zu einer Aggregation."@de ] .
 
 ddbv:ItemAggregationShape a sh:NodeShape ;
+  rdfs:label "Aggregation und Kulturerbeobjekt"@de ;
+  sh:name "Aggregation und Kulturerbeobjekt"@de ;
+  sh:description "Für jede ore:Aggregation muss edm:aggregatedCHO genau einen IRI-Wert besitzen. Weitere Aggregationsangaben und die Typisierung der referenzierten Ressource werden durch diese Regel nicht geprüft."@de ;
+  sh:order 2 ;
   sh:targetClass ore:Aggregation ;
-  sh:property [ sh:path edm:aggregatedCHO ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ] .
+  sh:property [ sh:name "Aggregiertes Kulturerbeobjekt"@de ; sh:description "Genau ein IRI-Wert für das aggregierte Objekt."@de ; sh:group ddbv:ItemStructureGroup ; sh:order 3 ; sh:path edm:aggregatedCHO ; sh:minCount 1 ; sh:maxCount 1 ; sh:nodeKind sh:IRI ; sh:message "Eine Aggregation referenziert genau ein Kulturerbeobjekt als IRI."@de ] .
 
 ddbv:ItemTypeShape a sh:NodeShape ;
+  rdfs:label "EDM-Medientyp eines Proxy"@de ;
+  sh:name "EDM-Medientyp eines Proxy"@de ;
+  sh:description "Vorhandene edm:type-Werte eines ore:Proxy werden mit den fünf EDM-Medientypen verglichen. Ein fehlender Wert ist erlaubt. Ein abweichender Wert erzeugt sh:Warning; auch Warnungen führen bei der verbindlichen Jena-Prüfung zu sh:conforms false."@de ;
+  sh:order 3 ;
   sh:targetClass ore:Proxy ;
-  sh:property [ sh:path edm:type ; sh:in ( "TEXT" "VIDEO" "SOUND" "IMAGE" "3D" ) ; sh:severity sh:Warning ; sh:message "Für edm:type sind die EDM-Medientypen vorgesehen."@de ] .
+  sh:property [ sh:name "EDM-Medientyp"@de ; sh:description "Optional und ohne Höchstanzahl; jeder vorhandene Wert muss einem der angegebenen einfachen Literale entsprechen."@de ; sh:group ddbv:ItemTypeGroup ; sh:order 1 ; sh:path edm:type ; sh:in ( "TEXT" "VIDEO" "SOUND" "IMAGE" "3D" ) ; sh:severity sh:Warning ; sh:message "Für edm:type sind die EDM-Medientypen vorgesehen."@de ] .
 
 # Freitexte dürfen sprachmarkiert sein, ohne dass @de zwingend verlangt wird.
 # Weitere Kardinalitäten und vollständige Regeln sind fachlich zu beschließen.

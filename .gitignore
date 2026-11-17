@@ -1,0 +1,6 @@
+Konzepte/
+Testdaten/
+target/
+.venv/
+__pycache__/
+*.pyc

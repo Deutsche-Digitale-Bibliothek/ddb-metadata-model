@@ -5,8 +5,17 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix ddbv: <https://www.deutsche-digitale-bibliothek.de/ddb/validation/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ddbv:CatalogLinkGroup a sh:PropertyGroup ;
+  rdfs:label "Enthaltene Datensets"@de ;
+  sh:order 1 .
 
 # Ein Catalog kann Datasets referenzieren; Mindestzahl ist noch offen.
 ddbv:CatalogDatasetLinkShape a sh:NodeShape ;
+  rdfs:label "Verweise eines Katalogs auf Datensets"@de ;
+  sh:name "Verweise eines Katalogs auf Datensets"@de ;
+  sh:description "Vorhandene dcat:dataset-Werte eines dcat:Catalog müssen IRIs oder Blank Nodes sein. Ein leerer Katalog ist durch diese Regel nicht ausgeschlossen; Zieltyp und Existenz werden nicht geprüft."@de ;
+  sh:order 1 ;
   sh:targetClass dcat:Catalog ;
-  sh:property [ sh:path dcat:dataset ; sh:nodeKind sh:IRIOrBlankNode ] .
+  sh:property [ sh:name "Datenset"@de ; sh:description "Jeder vorhandene Wert ist eine IRI oder ein Blank Node. Weder Mindest- noch Höchstanzahl sind festgelegt."@de ; sh:group ddbv:CatalogLinkGroup ; sh:order 1 ; sh:path dcat:dataset ; sh:nodeKind sh:BlankNodeOrIRI ; sh:message "Ein Datenset wird als IRI oder Blank Node angegeben."@de ] .

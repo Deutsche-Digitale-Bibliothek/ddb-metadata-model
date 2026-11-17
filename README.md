@@ -1,89 +1,118 @@
-# DDB SHACL
+# DDB Metadata Model
 
-RDF-Vokabulardokumentation, SHACL-Entwürfe und die derzeit aktiven
-Validierungsregeln der [DDB API v3](https://github.com/mbuechner/ddb-api-v3).
-Die Dateien werden hier gepflegt und von der API als Git-Submodul auf einem
-festgelegten Commit eingebunden. Es gibt keinen Download zur Laufzeit.
+Vier RDF-Anwendungsprofile der Deutschen Digitalen Bibliothek.
+**Arbeitsentwurf 0.1.0.** Die Git-Historie, Autoren und
+[Apache-2.0-Lizenz](LICENSE) stammen aus dem bisherigen SHACL-Verzeichnis der
+[DDB API v3](https://github.com/mbuechner/ddb-api-v3).
 
-## Aktive API-Regeln
+[Repository](https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model) ·
+[Dokumentation](https://deutsche-digitale-bibliothek.github.io/ddb-metadata-model/) ·
+[Versionen](https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/releases)
 
-| API-Bereich | Aktive Datei | Prüfung |
+## Zwei Ebenen, bewusst getrennt
+
+| Bereich | Fachlicher Umfang | Aktive API-Policy |
 |---|---|---|
-| `/items` | `items.ttl` | Der RDF-Graph enthält mindestens ein Triple. |
-| `/records` | `records.ttl` | Der RDF-Graph enthält mindestens ein Triple. |
+| Items | Kulturerbeobjekte, Proxys, Aggregationen, Repräsentationen, Kontext | `items.ttl`: Graph hat mindestens ein Triple |
+| Records | Administration, Provenienz, technische Anreicherung, Qualität | `records.ttl`: Graph hat mindestens ein Triple |
+| Datasets | Datensets und Distributionen | keine |
+| Catalog | Kataloge und Datendienste | keine |
 
-Diese beiden Policies erhalten den bisherigen API-Vertrag. Sie benutzen einen
-festen `sh:targetNode` und eine SHACL-SPARQL-Bedingung, damit auch ein leerer Graph
-geprüft wird. Die API lädt die Shapes einmal beim Start vom Classpath.
+Die API lädt **nur `items.ttl` und `records.ttl`**, einmal beim Start vom
+Classpath. Die separaten `*_shapes.ttl` sind fachliche Entwürfe. Ein neues
+Submodul-Commit aktiviert sie nicht. Diese Regeln ersetzen keinen vollständigen
+EDM-Validator; insbesondere sind Pflichtangaben und weitere fachliche
+Konsistenzregeln noch offen.
 
-Die folgenden `*_shapes.ttl`-Dateien sind separate fachliche Arbeitsentwürfe.
-Sie werden von der API derzeit nicht geladen. Ihre Aktivierung ist eine eigene,
-fachlich und technisch zu prüfende Änderung; das Aktualisieren des Submoduls
-aktiviert sie nicht automatisch.
+## Quellen und Sichten
 
-## Pflege und Einbindung
-
-Änderungen werden in diesem Repository committed und veröffentlicht. Anschließend
-wird in der API der gewünschte Commit des Submoduls ausgewählt und der neue
-Submodul-Verweis zusammen mit den API-Tests geprüft und committed. Die Anleitung
-steht in der [API-Architekturdokumentation](https://github.com/mbuechner/ddb-api-v3/blob/main/docs/architecture.md#endpunkte-und-shacl-erweitern).
-
-Die Git-Historie des ursprünglichen SHACL-Verzeichnisses wurde mit Autoren,
-Zeitstempeln und Commit-Nachrichten übernommen. Die beim Hinzufügen der Entwürfe
-entfernten aktiven Policies wurden aus dem vorherigen Stand wiederhergestellt.
-Alle Turtle-Dateien des Arbeitsentwurfs wurden unverändert übernommen.
-
-Lizenz: [Apache License 2.0](LICENSE), wie im Herkunftsprojekt.
-
-## DDB RDF-/SHACL-Anwendungsprofile (Arbeitsentwurf 0.1)
-
-**Grundlage:** „Konzept für ein neues Datenmodell für das DDB-Objekt“, Version 0.1, 06.11.2026, sowie die DDB-Entscheidung, vier API-Bereiche voneinander zu trennen. Datenbeispiele dienen zur technischen Plausibilisierung, nicht als Grundlage der beschreibenden Fachtexte.
-
-## Struktur
-
-| Bereich | Klassendatei | Propertydatei | SHACL-Core-Regeln |
-|---|---|---|---|
-| `/items` | `items_class_definitions.ttl` | `items_property_definitions.ttl` | `items_shapes.ttl` |
-| `/records` | `records_class_definitions.ttl` | `records_property_definitions.ttl` | `records_shapes.ttl` |
-| `/datasets` | `datasets_class_definitions.ttl` | `datasets_property_definitions.ttl` | `datasets_shapes.ttl` |
-| `/catalog` | `catalog_class_definitions.ttl` | `catalog_property_definitions.ttl` | `catalog_shapes.ttl` |
-
-**Wichtig:** Klassen- und Propertydateien sind RDF-Vokabulardokumentation. Die vier `*_shapes.ttl`-Dateien enthalten die ausführbaren SHACL-Bedingungen. Weder die Vokabulardokumentation noch die Start-Shapes allein sind ein vollständiges, fachlich beschlossenes Validierungsprofil.
-
-## Fachliche Grenzen
-
-- `/items`: Kulturerbeobjekte, Aggregationen, Proxys, digitale Repräsentationen und Kontextressourcen. Die Struktur differenziert zwischen übermittelten und durch DDB angereicherten Beschreibungen; es werden keine festen Anzahlen von Proxys vorgeschrieben.
-- `/records`: Administrative Records, Provenienz, technische Anreicherungsmetadaten und Qualitätsbewertung. Die fachliche Definition eigener technischer Anreicherungsklassen bleibt offen. Es werden PROV-O und DQV eingesetzt, ohne solche DDB-Klassen zu erfinden. `dcat:CatalogRecord` ist optional und beschreibt einen Katalogeintrag, nicht pauschal jeden Record.
-- `/datasets`: Lieferdatensets und Distributionen mit DCAT 3.
-- `/catalog`: Katalog und Datendienste mit DCAT 3.
-- Bezeichnungen (`rdfs:label`) und geeignete Textwerte können beliebige BCP-47-Sprachtags tragen. Deutsch ist redaktionell bevorzugt, `@en` und weitere Sprachversionen sind zulässig.
-- Der offizielle DQV-Namespace lautet `http://www.w3.org/ns/dqv#`, nicht die URL der W3C-Dokumentation.
-- DDB-Begriffe und technische `ddbv:`-Profilklassen sind Entwurfsbestandteile. Ihre Veröffentlichung und Namenskonventionen müssen noch beschlossen werden.
-- Gemeinsame standardisierte Eigenschaften (z. B. `dcterms:title`) können in mehreren Bereichs-Katalogen dokumentiert sein; das ist keine doppelte Datenhaltung.
-- `rdfs:subClassOf` auf `ddbv:`-Hilfsklassen beschreibt die lokale Validierungsgruppierung, nicht notwendigerweise die Ontologie des Vokabularherausgebers.
-- Die im Ausgangskonzept erwähnten Anforderungen an Konfidenz, KI-Modelle und Validierungsstatus wurden **nicht** in verbindliche Property- und Kardinalitätsvorgaben umgedeutet.
-
-## Hinweise zur Nutzung
-
-Apache Jena, Beispiel:
-
-```bash
-shacl validate --shapes items_shapes.ttl --data objekt.rdf
+```text
+*_class_definitions.ttl     Klassenreferenz (rdfs:Class)
+*_property_definitions.ttl  Propertyreferenz (rdf:Property)
+*_shapes.ttl               ausführbare Entwurfsregeln
+profiles/*.ttl             Titel, Version, Status, Herausgeber, Lizenz
+tests/data/                kleine öffentliche Testfälle
+src/test/                  Jena-Tests und RDF-/HTML-Berichte
+scripts/                   statischer Dokumentationsbuild
+target/                    erzeugt und ignoriert
 ```
 
-Wenn SHACL-Regeln die lokalen `ddbv:`-Oberklassen als Targets benutzen, müssen die entsprechenden `*_class_definitions.ttl`-Tripel dem **Datengraphen** zugemischt werden. Die Starter-Shapes zielen überwiegend auf die Originalklassen, damit ein isolierter erster Lauf funktioniert.
+Die Turtle-Dateien bleiben für bestehende Verbraucher im Wurzelverzeichnis.
+Beschreibungen und Shape-Metadaten werden **im RDF** gepflegt. Die erzeugten
+Seiten werden nicht nachbearbeitet. Deutsch wird bevorzugt; vorhandene weitere
+Sprachfassungen bleiben sichtbar. Die Referenz erfasst alle Klassen und
+Properties, die Regelsicht ausschließlich vorhandene Constraints. Diagramme
+zeigen explizite Unterklassenbeziehungen sowie SHACL-Targets und -Pfade.
+Domain/Range-Beziehungen werden nicht aus Fachtexten geraten.
 
-Die SHACL-Eingabe validiert den RDF-Graphen. RDF/XML, Turtle und JSON-LD sind lediglich unterschiedliche Serialisierungen.
+JSON-LD und RDF/XML sind weitere Serialisierungen des Profilmodells. Ein
+Nutzdaten-Context und JSON Schema sind mögliche spätere Ergänzungen und kein
+Ersatz für RDF-/SHACL-/SPARQL-Prüfungen. Es gibt keinen Uploadservice und keinen
+zusätzlichen API-Endpunkt.
 
-### Nicht abgedeckt
+`Konzepte/` und `Testdaten/` sind private lokale Arbeitsunterlagen. Sie bleiben
+ignoriert und außerhalb von Website, Downloads, Releases und öffentlichen
+Berichten. CI verwendet ausschließlich `tests/data/`.
 
-Das Paket ersetzt nicht Europeanas vollständigen EDM-External-Validator. Die SHACL-Regeln sind absichtlich minimal. Insbesondere fehlen bis zur fachlichen Abstimmung Pflichtangaben für alle vier Bereiche, kontrollierte Wertebereiche außerhalb `edm:type`, mehrteilige Provenienzprüfungen, globale Graph-Konsistenzregeln und fachliche Zuordnung der Datensätze zu den Items.
+## Lokal
 
-## Quellen
+Java 25, Maven 3.9.11 und Python 3.13.7; CI pinnt die Werkzeuge und Abhängigkeiten.
 
-- DDB-Metadatenkonzept Version 0.1 (06.11.2026)
-- Europeana EDM: https://github.com/europeana/metis-edm-ext-schema
-- SHACL: https://www.w3.org/TR/shacl/
-- DCAT 3: https://www.w3.org/TR/vocab-dcat-3/
-- PROV-O: https://www.w3.org/TR/prov-o/
-- DQV: https://www.w3.org/TR/vocab-dqv/
+```sh
+python -m venv .venv
+# Linux/macOS: . .venv/bin/activate
+# PowerShell: .venv/Scripts/Activate.ps1
+python -m pip install -r requirements-docs.txt
+mvn --batch-mode verify
+python scripts/build_docs.py
+python scripts/check_docs.py
+python .github/scripts/check_reproducibility.py
+python -m http.server 8765 --directory target/site
+```
+
+Die Website liegt unter `target/site/`, öffentliche RDF-/HTML-Berichte unter
+`target/reports/`, JUnit unter `target/surefire-reports/`.
+Erwartete Ablehnungen sind erfolgreiche Tests. Fehlende Targets, andere
+Ergebnisse, Syntax- und Ausführungsfehler lassen den Build scheitern.
+[Prüfbedingungen und Testfälle](docs/validation.md) ·
+[Werkzeugprobe mit Items](docs/tooling.md).
+
+Optionale Prüfung der lokalen RDF/XML-Beispiele:
+
+```sh
+mvn verify -DprivateExamples=true
+```
+
+Diese Ausgaben landen ausschließlich unter `target/private-reports/` und werden
+vom Dokumentationsbuild nicht eingelesen. Vor öffentlichen Builds wieder
+`mvn verify` ohne diese Option ausführen.
+
+## CI und Releases
+
+PRs bauen Tests und Dokumentation. RDF-/HTML- und JUnit-Berichte werden auch bei
+Testfehlern als Artefakte gesichert. Nur ein erfolgreicher `main`-Build
+veröffentlicht die aktuelle Website. Unter **Settings → Pages → Source** muss
+einmalig **GitHub Actions** eingestellt sein.
+
+Für einen Release die Versionsangaben in `profiles/*.ttl` und `pom.xml` abstimmen,
+einen festen Commit mit `vMAJOR.MINOR.PATCH` taggen und einen GitHub-Release
+veröffentlichen. Der Workflow hängt die eigenständige Dokumentation als ZIP,
+Manifest und SHA-256-Prüfsummen an. Der Versionsbereich der Website verweist auf
+diese unverändert zuordenbaren Archive. Bereits vorhandene Assets werden nicht
+überschrieben.
+
+## Modellstand in die API übernehmen
+
+```sh
+git clone --recurse-submodules https://github.com/mbuechner/ddb-api-v3.git
+cd ddb-api-v3
+git -C api-service/src/main/resources/shacl fetch origin
+git -C api-service/src/main/resources/shacl checkout <MODELL-COMMIT>
+git add api-service/src/main/resources/shacl
+```
+
+Anschließend API-Tests und Paketinhalt prüfen, dann den Gitlink committen.
+**Kein `submodule update --remote` im Build.** Checkout und Deployment verwenden
+den gespeicherten Commit. Maven verpackt aus dem Submodul ausschließlich
+`shacl/items.ttl` und `shacl/records.ttl`.
+[API-Abnahme und Ressourcenprüfung](docs/api-integration.md).

@@ -5,8 +5,17 @@
 @prefix sh: <http://www.w3.org/ns/shacl#> .
 @prefix dcat: <http://www.w3.org/ns/dcat#> .
 @prefix ddbv: <https://www.deutsche-digitale-bibliothek.de/ddb/validation/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ddbv:DatasetLinkGroup a sh:PropertyGroup ;
+  rdfs:label "Distributionen"@de ;
+  sh:order 1 .
 
 # Gültiger RDF-Verweis; keine verbindliche Pflicht zur Distribution abgeleitet.
 ddbv:DatasetDistributionLinkShape a sh:NodeShape ;
+  rdfs:label "Verweise eines Datensets auf Distributionen"@de ;
+  sh:name "Verweise eines Datensets auf Distributionen"@de ;
+  sh:description "Vorhandene dcat:distribution-Werte eines dcat:Dataset müssen IRIs oder Blank Nodes sein. Eine Distribution ist nicht verpflichtend; weder Höchstanzahl noch Zieltyp werden geprüft."@de ;
+  sh:order 1 ;
   sh:targetClass dcat:Dataset ;
-  sh:property [ sh:path dcat:distribution ; sh:nodeKind sh:IRIOrBlankNode ] .
+  sh:property [ sh:name "Distribution"@de ; sh:description "Jeder vorhandene Wert ist eine IRI oder ein Blank Node. Literale sind unzulässig."@de ; sh:group ddbv:DatasetLinkGroup ; sh:order 1 ; sh:path dcat:distribution ; sh:nodeKind sh:BlankNodeOrIRI ; sh:message "Eine Distribution wird als IRI oder Blank Node angegeben."@de ] .

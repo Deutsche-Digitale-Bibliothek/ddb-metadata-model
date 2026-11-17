@@ -1,0 +1,3 @@
+@prefix ex: <https://example.org/> .
+@prefix dcat: <http://www.w3.org/ns/dcat#> .
+ex:dataset a dcat:Dataset ; dcat:distribution "distribution" .

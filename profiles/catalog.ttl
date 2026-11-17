@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prof: <http://www.w3.org/ns/dx/prof/> .
+
+<https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/profiles/catalog>
+    a dcterms:Standard, prof:Profile ;
+    dcterms:identifier "catalog" ;
+    dcterms:title "Catalog – Katalog und Datendienste"@de ;
+    dcterms:description "Vokabularreferenz für Katalog und Datendienste auf Basis von DCAT 3. Die konservative SHACL-Startregel prüft nur vorhandene Datensetverweise; sie verlangt kein Datenset. Fachlicher Arbeitsentwurf, keine aktive API-Policy."@de ;
+    dcterms:hasVersion "0.1.0" ;
+    adms:status "Arbeitsentwurf"@de ;
+    dcterms:publisher <https://www.deutsche-digitale-bibliothek.de/> ;
+    dcterms:license <https://www.apache.org/licenses/LICENSE-2.0> ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dcterms:source "DDB-Metadatenkonzept, Version 0.1, 06.11.2026 (lokale Arbeitsgrundlage)"@de ;
+    dcterms:hasPart
+        <https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/blob/main/catalog_class_definitions.ttl>,
+        <https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/blob/main/catalog_property_definitions.ttl>,
+        <https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/blob/main/catalog_shapes.ttl> .
+
+<https://www.deutsche-digitale-bibliothek.de/>
+    rdfs:label "Deutsche Digitale Bibliothek"@de .

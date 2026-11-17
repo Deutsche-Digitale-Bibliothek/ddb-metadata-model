@@ -1,0 +1,2 @@
+@prefix ex: <https://example.org/> .
+ex:subject ex:predicate "Ein Triple reicht für die aktive API-Policy."@de .

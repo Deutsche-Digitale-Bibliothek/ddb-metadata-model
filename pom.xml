@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>de.ddb</groupId>
+  <artifactId>ddb-metadata-model</artifactId>
+  <version>0.1.0-SNAPSHOT</version>
+  <name>DDB Metadata Model – Regeltests</name>
+  <url>https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model</url>
+  <licenses><license><name>Apache License 2.0</name><url>https://www.apache.org/licenses/LICENSE-2.0</url></license></licenses>
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <maven.compiler.release>25</maven.compiler.release>
+    <jena.version>6.2.0</jena.version>
+    <junit.version>6.1.3</junit.version>
+    <privateExamples>false</privateExamples>
+    <model.testReportsDirectory>${project.build.directory}/surefire-reports</model.testReportsDirectory>
+  </properties>
+  <dependencies>
+    <dependency><groupId>org.apache.jena</groupId><artifactId>jena-shacl</artifactId><version>${jena.version}</version><scope>test</scope></dependency>
+    <dependency><groupId>org.junit.jupiter</groupId><artifactId>junit-jupiter</artifactId><version>${junit.version}</version><scope>test</scope></dependency>
+    <dependency><groupId>org.slf4j</groupId><artifactId>slf4j-simple</artifactId><version>2.0.20</version><scope>test</scope></dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-clean-plugin</artifactId><version>3.5.0</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-resources-plugin</artifactId><version>3.4.0</version></plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-compiler-plugin</artifactId><version>3.16.0</version></plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId><artifactId>maven-surefire-plugin</artifactId><version>3.6.1</version>
+        <configuration>
+          <systemPropertyVariables><privateExamples>${privateExamples}</privateExamples></systemPropertyVariables>
+          <reportsDirectory>${model.testReportsDirectory}</reportsDirectory>
+        </configuration>
+      </plugin>
+      <plugin><groupId>org.apache.maven.plugins</groupId><artifactId>maven-jar-plugin</artifactId><version>3.5.1</version></plugin>
+    </plugins>
+  </build>
+  <profiles>
+    <profile>
+      <id>private-examples</id>
+      <activation><property><name>privateExamples</name><value>true</value></property></activation>
+      <properties><model.testReportsDirectory>${project.build.directory}/private-surefire-reports</model.testReportsDirectory></properties>
+    </profile>
+  </profiles>
+</project>

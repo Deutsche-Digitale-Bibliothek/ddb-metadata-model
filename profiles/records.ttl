@@ -1,0 +1,23 @@
+@prefix dcterms: <http://purl.org/dc/terms/> .
+@prefix adms: <http://www.w3.org/ns/adms#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix prof: <http://www.w3.org/ns/dx/prof/> .
+
+<https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/profiles/records>
+    a dcterms:Standard, prof:Profile ;
+    dcterms:identifier "records" ;
+    dcterms:title "Records – Administrative Metadaten"@de ;
+    dcterms:description "Vokabularreferenz für administrative Records, Provenienz und Qualitätsangaben sowie eine optionale IRI-Verknüpfung zum Item als konservative SHACL-Startregel. Fachlicher Arbeitsentwurf; die API lädt weiterhin ausschließlich die separate Minimalpolicy records.ttl."@de ;
+    dcterms:hasVersion "0.1.0" ;
+    adms:status "Arbeitsentwurf"@de ;
+    dcterms:publisher <https://www.deutsche-digitale-bibliothek.de/> ;
+    dcterms:license <https://www.apache.org/licenses/LICENSE-2.0> ;
+    dcterms:language <http://id.loc.gov/vocabulary/iso639-1/de> ;
+    dcterms:source "DDB-Metadatenkonzept, Version 0.1, 06.11.2026 (lokale Arbeitsgrundlage)"@de ;
+    dcterms:hasPart
+        <https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/blob/main/records_class_definitions.ttl>,
+        <https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/blob/main/records_property_definitions.ttl>,
+        <https://github.com/Deutsche-Digitale-Bibliothek/ddb-metadata-model/blob/main/records_shapes.ttl> .
+
+<https://www.deutsche-digitale-bibliothek.de/>
+    rdfs:label "Deutsche Digitale Bibliothek"@de .

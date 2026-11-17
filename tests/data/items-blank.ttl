@@ -1,0 +1,5 @@
+@prefix ex: <https://example.org/> .
+@prefix ore: <http://www.openarchives.org/ore/terms/> .
+@prefix edm: <http://www.europeana.eu/schemas/edm/> .
+ex:proxy a ore:Proxy ; ore:proxyFor [] ; ore:proxyIn [] .
+ex:aggregation a ore:Aggregation ; edm:aggregatedCHO [] .

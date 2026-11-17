@@ -1,0 +1,6 @@
+@prefix ex: <https://example.org/> .
+@prefix ore: <http://www.openarchives.org/ore/terms/> .
+@prefix edm: <http://www.europeana.eu/schemas/edm/> .
+@prefix dc: <http://purl.org/dc/elements/1.1/> .
+ex:proxy a ore:Proxy ; ore:proxyFor ex:cho ; ore:proxyIn ex:aggregation ; dc:title "Title"@en, "Titel"@de .
+ex:aggregation a ore:Aggregation ; edm:aggregatedCHO ex:cho .

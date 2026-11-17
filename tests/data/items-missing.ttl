@@ -1,0 +1,4 @@
+@prefix ex: <https://example.org/> .
+@prefix ore: <http://www.openarchives.org/ore/terms/> .
+ex:proxy a ore:Proxy .
+ex:aggregation a ore:Aggregation .

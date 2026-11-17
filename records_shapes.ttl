@@ -6,11 +6,20 @@
 @prefix bf: <http://id.loc.gov/ontologies/bibframe/> .
 @prefix prov: <http://www.w3.org/ns/prov#> .
 @prefix ddbv: <https://www.deutsche-digitale-bibliothek.de/ddb/validation/> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+
+ddbv:RecordLinkGroup a sh:PropertyGroup ;
+  rdfs:label "Administrative Verknüpfungen"@de ;
+  sh:order 1 .
 
 # Minimale Typprüfung: eine vorhandene Verknüpfung zum Item ist eine IRI.
 ddbv:RecordAdminLinkShape a sh:NodeShape ;
+  rdfs:label "Verweis vom administrativen Record zum Item"@de ;
+  sh:name "Verweis vom administrativen Record zum Item"@de ;
+  sh:description "Vorhandene bf:adminMetadataFor-Werte eines bf:AdminMetadata-Knotens müssen IRIs sein. Die Beziehung ist optional und besitzt keine Höchstanzahl; Zieltyp und Existenz werden nicht geprüft."@de ;
+  sh:order 1 ;
   sh:targetClass bf:AdminMetadata ;
-  sh:property [ sh:path bf:adminMetadataFor ; sh:nodeKind sh:IRI ; sh:message "Ein referenziertes Item wird als IRI angegeben."@de ] .
+  sh:property [ sh:name "Referenziertes Item"@de ; sh:description "Jeder vorhandene Wert ist eine IRI. Diese Regel fordert keinen Verweis und begrenzt die Anzahl nicht."@de ; sh:group ddbv:RecordLinkGroup ; sh:order 1 ; sh:path bf:adminMetadataFor ; sh:nodeKind sh:IRI ; sh:message "Ein referenziertes Item wird als IRI angegeben."@de ] .
 
 # Für Verarbeitung, Anreicherung und Qualität sind noch keine verbindlichen
 # Mindestangaben, Konfidenzgrenzen oder Modellversionen beschlossen.
