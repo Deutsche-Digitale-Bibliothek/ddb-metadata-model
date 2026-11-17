@@ -1,4 +1,41 @@
-# DDB RDF-/SHACL-Anwendungsprofile (Arbeitsentwurf 0.1)
+# DDB SHACL
+
+RDF-Vokabulardokumentation, SHACL-Entwürfe und die derzeit aktiven
+Validierungsregeln der [DDB API v3](https://github.com/mbuechner/ddb-api-v3).
+Die Dateien werden hier gepflegt und von der API als Git-Submodul auf einem
+festgelegten Commit eingebunden. Es gibt keinen Download zur Laufzeit.
+
+## Aktive API-Regeln
+
+| API-Bereich | Aktive Datei | Prüfung |
+|---|---|---|
+| `/items` | `items.ttl` | Der RDF-Graph enthält mindestens ein Triple. |
+| `/records` | `records.ttl` | Der RDF-Graph enthält mindestens ein Triple. |
+
+Diese beiden Policies erhalten den bisherigen API-Vertrag. Sie benutzen einen
+festen `sh:targetNode` und eine SHACL-SPARQL-Bedingung, damit auch ein leerer Graph
+geprüft wird. Die API lädt die Shapes einmal beim Start vom Classpath.
+
+Die folgenden `*_shapes.ttl`-Dateien sind separate fachliche Arbeitsentwürfe.
+Sie werden von der API derzeit nicht geladen. Ihre Aktivierung ist eine eigene,
+fachlich und technisch zu prüfende Änderung; das Aktualisieren des Submoduls
+aktiviert sie nicht automatisch.
+
+## Pflege und Einbindung
+
+Änderungen werden in diesem Repository committed und veröffentlicht. Anschließend
+wird in der API der gewünschte Commit des Submoduls ausgewählt und der neue
+Submodul-Verweis zusammen mit den API-Tests geprüft und committed. Die Anleitung
+steht in der [API-Architekturdokumentation](https://github.com/mbuechner/ddb-api-v3/blob/main/docs/architecture.md#endpunkte-und-shacl-erweitern).
+
+Die Git-Historie des ursprünglichen SHACL-Verzeichnisses wurde mit Autoren,
+Zeitstempeln und Commit-Nachrichten übernommen. Die beim Hinzufügen der Entwürfe
+entfernten aktiven Policies wurden aus dem vorherigen Stand wiederhergestellt.
+Alle Turtle-Dateien des Arbeitsentwurfs wurden unverändert übernommen.
+
+Lizenz: [Apache License 2.0](LICENSE), wie im Herkunftsprojekt.
+
+## DDB RDF-/SHACL-Anwendungsprofile (Arbeitsentwurf 0.1)
 
 **Grundlage:** „Konzept für ein neues Datenmodell für das DDB-Objekt“, Version 0.1, 06.11.2026, sowie die DDB-Entscheidung, vier API-Bereiche voneinander zu trennen. Datenbeispiele dienen zur technischen Plausibilisierung, nicht als Grundlage der beschreibenden Fachtexte.
 
